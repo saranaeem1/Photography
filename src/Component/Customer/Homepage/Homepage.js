@@ -5,10 +5,12 @@ import CustomerReviewsPage from '../Review/Review';
 import CustomerContact from '../CustomerContact/CustomerContact';
 import AboutUs from '../AboutUs/AboutUs';
 import Footer from '../Footer/Footer';
+import UserNavbar from '../UserNavbar/UserNavbar';
 
 const HomePage = () => {
   return (
     <div>
+      <UserNavbar />
       <ImageCarousel />
       <Genre />
       <AboutUs/>

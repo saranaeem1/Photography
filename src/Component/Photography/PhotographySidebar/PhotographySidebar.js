@@ -7,22 +7,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AddIcon from "@mui/icons-material/Add";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { PhotoLibrary, Build } from "@mui/icons-material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
-export default function TemporaryDrawer({
-  anchor,
-  state,
-  setState,
-  toggleDrawer,
-}) {
+export default function PhotographyDrawer({ anchor, state, setState, toggleDrawer }) {
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -35,37 +26,22 @@ export default function TemporaryDrawer({
           {
             text: "Profile",
             icon: <PersonIcon />,
-            link: "admin-profile",
+            link: "photographer-profile",
           },
           {
-            text: "Dashboard",
-            icon: <DashboardIcon />,
-            link: "/dashboard",
+            text: "Portfolio",
+            icon: <PhotoLibrary />,
+            link: "/photographerPortfolio",
           },
           {
-            text: "Manage users",
-            icon: <PeopleAltIcon />,
-            link: "/manage-users",
-          },
-          {
-            text: "Manage photographers",
-            icon: <PeopleAltIcon />,
-            link: "/manage-photographers",
-          },
-          {
-            text: "Add Genre",
-            icon: <AddIcon />,
-            link: "/add-genre",
+            text: "Services",
+            icon: <Build />,
+            link: "/photog-services",
           },
           {
             text: "Booking History",
-            icon: <CalendarTodayIcon/>,
-            link: "/booking-history",
-          },
-          {
-            text: "Customer Queries",
-            icon: <HelpOutlineIcon />,
-            link: "/customer-queries",
+            icon: <CalendarTodayIcon />,
+            link: "/Photographerbookinghistory",
           },
           {
             text: "Logout",

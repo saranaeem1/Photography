@@ -47,7 +47,7 @@ const genres = [
 
 const Genre = () => {
   return (
-    <Box>
+    <Box id="genre">
       <Typography
         sx={{
           fontSize: "2rem",
@@ -72,30 +72,28 @@ const Genre = () => {
         {genres.map((genre, index) => (
           <Grow in={true} timeout={index * 500}>
             <Card sx={{ maxWidth: 300, margin: "15px" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={genre.image}
-                  alt={genre.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {genre.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {genre.description}
-                  </Typography>
-                  <Link to="/photographer-page">
-                    <Button
-                      variant="contained"
-                      sx={{ marginTop: "12px", borderRadius: "20px" }}
-                    >
-                      Explore
-                    </Button>
-                  </Link>
-                </CardContent>
-              </CardActionArea>
+              <CardMedia
+                component="img"
+                height="180"
+                image={genre.image}
+                alt={genre.name}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {genre.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {genre.description}
+                </Typography>
+                <Link to="/photographer-page">
+                  <Button
+                    variant="contained"
+                    sx={{ marginTop: "12px", borderRadius: "20px" }}
+                  >
+                    Explore
+                  </Button>
+                </Link>
+              </CardContent>
             </Card>
           </Grow>
         ))}

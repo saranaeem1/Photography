@@ -1,11 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css"
 const Footer = () => {
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <footer>
       <div className="footer-container">
         <div className="footer-column">
-          <h3>Learning Loom</h3>
+          <h3>PixelVision Studio</h3>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
             odio. Praesent libero.
@@ -15,19 +22,17 @@ const Footer = () => {
           <h3>Quick Links</h3>
           <ul>
             <li>
-              <a href="Page.js#courses">Courses</a>
+              <a href="#" onClick={() => scrollToSection("review")}>
+                Review
+              </a>
             </li>
             <li>
-              <a href="Page.js#instructors">Instructors</a>
+              <a href="#" onClick={() => scrollToSection("contact")}>
+                Contact us
+              </a>
             </li>
             <li>
-              <a href="Page.js#about">About us</a>
-            </li>
-            <li>
-              <a href="Page.js#pricing">Pricing</a>
-            </li>
-            <li>
-              <a href="Page.js#ContactContainer">Contact us</a>
+              <Link to="/booking">Booking</Link>
             </li>
           </ul>
         </div>
@@ -53,7 +58,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2023 Learning Loom Website. All rights reserved.</p>
+        <p>&copy; 2024 PixelVision Studio. All rights reserved.</p>
       </div>
     </footer>
   );

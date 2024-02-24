@@ -1,0 +1,29 @@
+.booking-history {
+    margin-top: 20px;
+  }
+  
+  .booking-history h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .booking-history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .booking-history th,
+  .booking-history td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .booking-history th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .booking-history tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

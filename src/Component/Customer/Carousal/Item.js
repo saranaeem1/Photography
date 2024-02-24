@@ -1,5 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 import "./ImgCarousal.css";
 const Item = ({ item }) => {
   return (
@@ -13,17 +14,19 @@ const Item = ({ item }) => {
           Welcome to our photography website! We are passionate about capturing
           moments that tell stories, evoke emotions, and preserve memories.{" "}
         </Typography>
-        <Button
-          variant="outlined"
-          sx={{
-            color: "white",
-            border: "2px solid white",
-            width: "150px",
-            borderRadius: "20px",
-          }}
-        >
-          Book Now
-        </Button>
+        <Link to="/booking">
+          <Button
+            variant="outlined"
+            sx={{
+              color: "white",
+              border: "2px solid white",
+              width: "150px",
+              borderRadius: "20px",
+            }}
+          >
+            Book Now
+          </Button>
+        </Link>
       </div>
     </Paper>
   );

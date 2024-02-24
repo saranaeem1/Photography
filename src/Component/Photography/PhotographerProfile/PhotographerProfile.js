@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
-import Navbar from "../Navbar/Navbar";
+import PhotographyNavbar from "../PhotographySidebar/PhotographerNavbar";;
 
-const AdminProfilePage = () => {
+const PhotographerProfile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,14 +50,14 @@ const AdminProfilePage = () => {
 
   return (
     <>
-      <Navbar />
+      <PhotographyNavbar/>
       <Box display="flex" justifyContent="center" alignItems="center">
         <Box sx={{ flexWrap: "wrap", flexDirection: "column" }}>
           <Typography
             variant="h4"
             sx={{ mt: "30px", mb: "25px", textAlign: "center" }}
           >
-            Admin Profile
+            Photographer Profile
           </Typography>
           <form onSubmit={handleSave}>
             {isEditing ? (
@@ -365,4 +365,4 @@ const AdminProfilePage = () => {
   );
 };
 
-export default AdminProfilePage;
+export default PhotographerProfile;

@@ -1,0 +1,25 @@
+.gradient-text {
+  background: linear-gradient(to right, #726cf8 0%, #e975a8 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+         
+.btn-grad {
+background-image: linear-gradient(to right, #DA22FF 0%, #9733EE  51%, #DA22FF  100%);
+text-align: center;
+text-transform: uppercase;
+transition: 0.5s;
+background-size: 200% auto;
+color: white;            
+text-decoration: none;
+box-shadow: 0 0 20px #eee;
+border-radius: 20px;
+display: block;
+}
+
+.btn-grad:hover {
+background-position: right center; 
+color: #fff;
+text-decoration: none;
+}
+         

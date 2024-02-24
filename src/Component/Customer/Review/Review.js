@@ -7,6 +7,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -16,6 +17,7 @@ import { useTheme } from "@mui/material/styles";
 import CustomDatePicker from "../../datepicker";
 import HoverRating from "./Rating";
 import CheckboxLabels from "./Checkboxlabel";
+import MuiAlert from "@mui/material/Alert";
 
 const photographers = [
   { id: 1, name: "Aliza Photography" },
@@ -24,24 +26,63 @@ const photographers = [
 ];
 
 const CustomerReviewsPage = () => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedPhotographer, setSelectedPhotographer] = useState("");
+  const [incompleteData, setIncompleteData] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const handlePublish = () => {
-    // Handle publishing the review
-    console.log("Rating:", rating);
-    console.log("Comment:", comment);
-    console.log("Date:", selectedDate);
-    console.log("Photographer:", selectedPhotographer);
+  const [reviewsData, setReviewData] = useState({
+    rating: 0,
+    comment: "",
+    date: null,
+    photographer: "",
+  });
+
+  const submitData = async (event) => {
+    event.preventDefault();
+    const { rating, comment, date, photographer } = reviewsData;
+    if (!rating || !comment || !date || !photographer) {
+      setIncompleteData(true);
+      return;
+    }
+    const res = await fetch(
+      "https://photography-website-26cc4-default-rtdb.firebaseio.com/UserReview.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rating,
+          comment,
+          date,
+          photographer,
+        }),
+      }
+    );
+    if (res.ok) {
+      setReviewData({
+        rating: 0,
+        comment: "",
+        date: null,
+        photographer: "",
+      });
+      setOpenSnackbar(true);
+      setIncompleteData(false); 
+    }
   };
+
+  const postUserData = (name, value) => {
+    setReviewData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ backgroundColor: "#f0f0f0", minHeight: "130vh" }}>
+    <Box id="review" sx={{ backgroundColor: "#f0f0f0", minHeight: "130vh" }}>
       <Typography
         sx={{
           fontSize: "2rem",
@@ -94,7 +135,13 @@ const CustomerReviewsPage = () => {
                 >
                   Rate your Experience
                 </Typography>
-                <HoverRating sx={{ mt: 5 }} />
+                <HoverRating
+                  value={reviewsData.rating}
+                  onChange={(event, newValue) =>
+                    setReviewData({ ...reviewsData, rating: newValue })
+                  }
+                  sx={{ mt: 5 }}
+                />
                 <Typography
                   variant="p"
                   sx={{ fontSize: "20px", fontWeight: "bold" }}
@@ -106,8 +153,10 @@ const CustomerReviewsPage = () => {
                   rows={3}
                   fullWidth
                   label="Comment"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
+                  value={reviewsData.comment}
+                  onChange={(event) =>
+                    postUserData("comment", event.target.value)
+                  }
                   variant="outlined"
                   sx={{ width: "100%" }}
                 />
@@ -125,8 +174,11 @@ const CustomerReviewsPage = () => {
                   <InputLabel id="photographer-label">Photographer</InputLabel>
                   <Select
                     labelId="photographer-label"
-                    value={selectedPhotographer}
-                    onChange={(e) => setSelectedPhotographer(e.target.value)}
+                    value={reviewsData.photographer}
+                    onChange={(event) =>
+                      postUserData("photographer", event.target.value)
+                    }
+                    name="photographer"
                   >
                     {photographers.map((photographer) => (
                       <MenuItem key={photographer.id} value={photographer.name}>
@@ -142,15 +194,15 @@ const CustomerReviewsPage = () => {
                   Date of Experience
                 </Typography>
                 <CustomDatePicker
-                  label="Date of experience"
-                  value={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
+                  selectedDate={reviewsData.date}
+                  onDateSelect={(date) => postUserData("date", date)}
+                  name="date"
                   sx={{ width: "100%" }}
                 />
                 <CheckboxLabels mt={2} />
                 <Button
                   variant="outlined"
-                  onClick={handlePublish}
+                  onClick={submitData}
                   sx={{
                     borderRadius: "20px",
                     border: "2px solid #0066ff",
@@ -168,6 +220,20 @@ const CustomerReviewsPage = () => {
           </Grid>
         </Grid>
       </Box>
+      <Snackbar
+        open={incompleteData}
+        autoHideDuration={3000}
+        onClose={() => setIncompleteData(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <MuiAlert
+          onClose={() => setIncompleteData(false)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Please fill in all fields.
+        </MuiAlert>
+      </Snackbar>
     </Box>
   );
 };
