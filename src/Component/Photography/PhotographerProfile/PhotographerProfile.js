@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
-import PhotographyNavbar from "../PhotographySidebar/PhotographerNavbar";;
+import PhotographyNavbar from "../PhotographySidebar/PhotographerNavbar";
 
 const PhotographerProfile = () => {
   const [firstName, setFirstName] = useState("");

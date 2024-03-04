@@ -1,14 +1,19 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { signOut } from "firebase/auth";
+import { auth } from "../Firebase";
 
 const Logout = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    history.push("/login");
+  const handleLogout = async () => {
+    await signOut(auth);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate("/login");
   };
-  
+
   return (
     <Button
       variant="contained"

@@ -6,9 +6,11 @@ import {
   TextField,
   Typography,
   Snackbar,
-  Alert, 
+  Alert,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../Firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignupPage = () => {
   const [userData, setUserData] = useState({
@@ -18,18 +20,26 @@ const SignupPage = () => {
     fullName: "",
     phoneNumber: "",
     city: "",
+    cnic: "",
+    billImage: null,
   });
   const [signupCompleted, setSignupCompleted] = useState(false);
   const [userType, setUserType] = useState(null);
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleButtonClick = (type) => {
     setUserType(type);
   };
 
   const postUserData = (event) => {
-    const { name, value } = event.target;
-    setUserData({ ...userData, [name]: value });
+    const { name, value, files } = event.target;
+    if (name === "billImage") {
+      setUserData({ ...userData, billImage: files[0] || null });
+    } else {
+      setUserData({ ...userData, [name]: value });
+    }
   };
 
   const validateForm = () => {
@@ -62,40 +72,88 @@ const SignupPage = () => {
       valid = false;
     }
 
+    if (userType === "photographer") {
+      if (!userData.cnic) {
+        newErrors.cnic = "CNIC is required";
+        valid = false;
+      }
+
+      if (!userData.billImage) {
+        newErrors.billImage = "Bill Image is required";
+        valid = false;
+      }
+    }
+
     setErrors(newErrors);
     return valid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) {
       return;
     }
 
-    let nodeName;
-    switch (userType) {
-      case "admin":
-        nodeName = "Admins";
-        break;
-      case "photographer":
-        nodeName = "Photographers";
-        break;
-      case "user":
-        nodeName = "Customers";
-        break;
-      default:
-        nodeName = "Customers";
-    }
-    const res = await fetch(
-      `https://photography-website-26cc4-default-rtdb.firebaseio.com/${nodeName}.json`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      }
+    const { email, password } = userData;
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
     );
+    console.log(userCredential);
+    const user = userCredential.user;
+    localStorage.setItem("token", user.accessToken);
+    localStorage.setItem("user", JSON.stringify(user));
+    const formData = new FormData();
+    Object.entries(userData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log(Object.fromEntries(formData.entries()));
+
+    var res;
+    if (userType === "photographer") {
+      res = await fetch(
+        `https://photography-website-26cc4-default-rtdb.firebaseio.com/photographer.json`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userData.username,
+            email: userData.email,
+            password: userData.password,
+            fullName: userData.fullName,
+            phoneNumber: userData.phoneNumber,
+            city: userData.city,
+            cnic: userData.cnic,
+            billImage: userData.billImage,
+          }),
+        }
+      );
+    } else {
+      res = await fetch(
+        `https://photography-website-26cc4-default-rtdb.firebaseio.com/user.json`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userData.username,
+            email: userData.email,
+            password: userData.password,
+            fullName: userData.fullName,
+            phoneNumber: userData.phoneNumber,
+            city: userData.city,
+            cnic: userData.cnic,
+            billImage: userData.billImage,
+            role: "user",
+          }),
+        }
+      );
+    }
     if (res.ok) {
       setUserData({
         username: "",
@@ -104,8 +162,13 @@ const SignupPage = () => {
         fullName: "",
         phoneNumber: "",
         city: "",
+        cnic: "",
+        billImage: null,
       });
       setSignupCompleted(true);
+      navigate("/login");
+    } else {
+      console.error("Error:", res.statusText);
     }
   };
 
@@ -132,32 +195,9 @@ const SignupPage = () => {
               }}
             >
               <Button
-                onClick={() => handleButtonClick("admin")}
-                sx={{
-                  marginRight: "10px",
-                  ...(userType === "admin" && {
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                  }),
-                }}
-              >
-                Admin
-              </Button>
-              <Button
-                onClick={() => handleButtonClick("photographer")}
-                sx={{
-                  marginRight: "10px",
-                  ...(userType === "photographer" && {
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                  }),
-                }}
-              >
-                Photographer
-              </Button>
-              <Button
                 onClick={() => handleButtonClick("user")}
                 sx={{
+                  marginRight: "10px",
                   ...(userType === "user" && {
                     backgroundColor: "#007bff",
                     color: "#fff",
@@ -165,6 +205,17 @@ const SignupPage = () => {
                 }}
               >
                 User
+              </Button>
+              <Button
+                onClick={() => handleButtonClick("photographer")}
+                sx={{
+                  ...(userType === "photographer" && {
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                  }),
+                }}
+              >
+                Photographer
               </Button>
             </Box>
             <form onSubmit={handleSubmit}>
@@ -225,6 +276,9 @@ const SignupPage = () => {
                 variant="outlined"
                 margin="normal"
                 fullWidth
+                type="tel"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber}
               />
               <TextField
                 label="City"
@@ -234,7 +288,36 @@ const SignupPage = () => {
                 variant="outlined"
                 margin="normal"
                 fullWidth
+                type="text"
+                error={!!errors.city}
+                helperText={errors.city}
               />
+              {userType === "photographer" && (
+                <>
+                  <TextField
+                    label="CNIC"
+                    name="cnic"
+                    value={userData.cnic}
+                    onChange={postUserData}
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    required
+                    type="text"
+                    error={!!errors.cnic}
+                    helperText={errors.cnic}
+                  />
+                  <input
+                    type="file"
+                    name="billImage"
+                    onChange={postUserData}
+                    accept="image/*"
+                    required
+                    error={!!errors.billImage}
+                    helperText={errors.billImage}
+                  />
+                </>
+              )}
               <Box
                 sx={{
                   display: "flex",
@@ -246,7 +329,9 @@ const SignupPage = () => {
                   Sign Up
                 </Button>
               </Box>
-              <Typography sx={{textAlign:"center"}}>Already have an account? <Link to="/login">Login</Link></Typography>
+              <Typography sx={{ textAlign: "center" }}>
+                Already have an account? <Link to="/login">Login</Link>
+              </Typography>
             </form>
           </Box>
         </Grid>

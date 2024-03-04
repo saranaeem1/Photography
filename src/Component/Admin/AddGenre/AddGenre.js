@@ -8,16 +8,9 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-
 import Navbar from "../Navbar/Navbar";
-import { storage } from "../../../Firebase";
-import { getDatabase, ref, push } from "firebase/database";
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
+
+
 
 const AddGenrePage = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -32,24 +25,6 @@ const AddGenrePage = () => {
     e.preventDefault();
     console.log("Genre submitted:", genreData);
 
-    // Upload picture to storage service (e.g., Firebase Storage)
-    const storageRef = ref(storage, "images/myFile.jpg");
-    await uploadBytes(storageRef, genreData.pic);
-    const picUrl = await getDownloadURL(storageRef);
-
-    // Include picture URL in the data sent to the database
-    const dataWithPicUrl = {
-      ...genreData,
-      pic: picUrl,
-    };
-
-    // Initialize Firebase Realtime Database
-    const database = getDatabase();
-
-    // Add the data to the database
-    const dbRef = ref(database, "Genre");
-    await push(dbRef, dataWithPicUrl);
-
     setGenreData({
       name: "",
       description: "",
@@ -57,7 +32,6 @@ const AddGenrePage = () => {
     });
     setOpenSnackbar(true);
   };
-
 
   const handlePictureChange = (e) => {
     const file = e.target.files[0];

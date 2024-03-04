@@ -8,6 +8,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import PhotographyNavbar from "../PhotographySidebar/PhotographerNavbar";
 
 const PhotographerService = () => {
   const [serviceName, setServiceName] = useState("");
@@ -40,98 +41,101 @@ const PhotographerService = () => {
   };
 
   return (
-    <Box mt={2} mb={8} ml={3} mr={3}>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} sm={10} md={8} lg={6}>
-          <Box p={3} boxShadow={3} borderRadius={2}>
-            <Typography
-              variant="h4"
-              sx={{ mt: "50px", mb: "15px", textAlign: "center" }}
-            >
-              Add Service
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <Typography variant="p" sx={{ fontSize: "20px" }}>
-                Service Name:
-              </Typography>
-              <TextField
-                value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                required
-              />
+    <>
+      <PhotographyNavbar />
+      <Box mt={2} mb={8} ml={3} mr={3}>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} sm={10} md={8} lg={6}>
+            <Box p={3} boxShadow={3} borderRadius={2}>
               <Typography
-                variant="p"
-                sx={{
-                  fontSize: "20px",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                }}
+                variant="h4"
+                sx={{ mt: "50px", mb: "15px", textAlign: "center" }}
               >
-                Description:
+                Add Service
               </Typography>
-              <Box mt={2}>
+              <form onSubmit={handleSubmit}>
+                <Typography variant="p" sx={{ fontSize: "20px" }}>
+                  Service Name:
+                </Typography>
                 <TextField
-                  multiline
-                  rows={4}
-                  fullWidth
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={serviceName}
+                  onChange={(e) => setServiceName(e.target.value)}
                   variant="outlined"
+                  margin="normal"
+                  fullWidth
                   required
                 />
-              </Box>
-              <input
-                accept="image/*"
-                style={{ display: "none" }}
-                id="contained-button-file"
-                type="file"
-                onChange={handlePictureChange}
-              />
-              <label htmlFor="contained-button-file">
-                <Button
-                  variant="contained"
-                  component="span"
-                  sx={{ mt: "10px" }}
+                <Typography
+                  variant="p"
+                  sx={{
+                    fontSize: "20px",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                  }}
                 >
-                  Upload Picture
-                </Button>
-              </label>
-              {servicePicture !== null && (
-                <Typography variant="body1">Picture uploaded!</Typography>
-              )}
-              <br />
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  sx={{ mt: 2 }}
-                >
-                  Add Service
-                </Button>
-              </Box>
-            </form>
-          </Box>
+                  Description:
+                </Typography>
+                <Box mt={2}>
+                  <TextField
+                    multiline
+                    rows={4}
+                    fullWidth
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    variant="outlined"
+                    required
+                  />
+                </Box>
+                <input
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="contained-button-file"
+                  type="file"
+                  onChange={handlePictureChange}
+                />
+                <label htmlFor="contained-button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    sx={{ mt: "10px" }}
+                  >
+                    Upload Picture
+                  </Button>
+                </label>
+                {servicePicture !== null && (
+                  <Typography variant="body1">Picture uploaded!</Typography>
+                )}
+                <br />
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                    sx={{ mt: 2 }}
+                  >
+                    Add Service
+                  </Button>
+                </Box>
+              </form>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-      <Snackbar
-        open={serviceAdded}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
+        <Snackbar
+          open={serviceAdded}
+          autoHideDuration={3000}
           onClose={handleCloseSnackbar}
-          severity="success"
-          sx={{ width: "100%" }}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          Service has been added
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Service has been added
+          </Alert>
+        </Snackbar>
+      </Box>
+    </>
   );
 };
 

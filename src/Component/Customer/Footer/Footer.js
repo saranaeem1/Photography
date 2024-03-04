@@ -14,8 +14,7 @@ const Footer = () => {
         <div className="footer-column">
           <h3>PixelVision Studio</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero.
+            A platform where you get best photography for all your events at reasonable charges
           </p>
         </div>
         <div className="footer-column">

@@ -90,8 +90,8 @@ function Dashboard() {
             </div>
             <h1>12</h1>
           </div>
-          <div className="card">
-            <div className="card-inner">
+          <div className="dashboard-card">
+            <div className="dashboard-card-inner">
               <h3>USERS</h3>
               <BsPeopleFill className="dashboard-card_icon" />
             </div>

@@ -1,5 +1,6 @@
 import React from "react";
-import "./BookingHistoryPhotographer.css"; // Import the CSS file for styling
+import "./BookingHistoryPhotographer.css"; 
+import PhotographyNavbar from "../PhotographySidebar/PhotographerNavbar";
 
 const BookingHistory = () => {
   const bookingHistory = [
@@ -22,33 +23,36 @@ const BookingHistory = () => {
   ];
 
   return (
-    <div className="booking-history">
-      <h2>Booking History</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Service</th>
-            <th>Charges</th>
-            <th>Date & Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookingHistory.map((booking) => (
-            <tr key={booking.id}>
-              <td>{booking.id}</td>
-              <td>{booking.username}</td>
-              <td>{booking.email}</td>
-              <td>{booking.service}</td>
-              <td>{booking.charges}</td>
-              <td>{booking.dateTime}</td>
+    <>
+      <PhotographyNavbar />
+      <div className="booking-history">
+        <h2>Booking History</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Service</th>
+              <th>Charges</th>
+              <th>Date & Time</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {bookingHistory.map((booking) => (
+              <tr key={booking.id}>
+                <td>{booking.id}</td>
+                <td>{booking.username}</td>
+                <td>{booking.email}</td>
+                <td>{booking.service}</td>
+                <td>{booking.charges}</td>
+                <td>{booking.dateTime}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 

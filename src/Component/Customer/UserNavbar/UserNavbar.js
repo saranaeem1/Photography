@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./UserNavbar.css";
 import Logout from "../../../Login/Logout";
 import logo from "../../../Asset/pixelvision_logo.png";
+
 const UserNavbar = () => {
   const [showNavigation, setShowNavigation] = useState(false);
 
@@ -19,29 +20,26 @@ const UserNavbar = () => {
 
   return (
     <nav>
-      <img
-        src={logo}
-        alt="logo"
-      />
+      <img src={logo} alt="logo" />
       <div className={`navigation ${showNavigation ? "open" : ""}`}>
         <ul>
           <li>
             <Link to="/homepage">Home</Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("genre")}>
+            <Link to="/homepage" onClick={() => scrollToSection("genre")}>
               Genre
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("review")}>
+            <Link to="/homepage" onClick={() => scrollToSection("review")}>
               Review
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("contact")}>
+            <Link to="/homepage" onClick={() => scrollToSection("contact")}>
               Contact us
-            </a>
+            </Link>
           </li>
           <li>
             <Link to="/booking">Booking</Link>
@@ -60,19 +58,19 @@ const UserNavbar = () => {
             <Link to="/homepage">Home</Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("genre")}>
+            <Link to="/homepage" onClick={() => scrollToSection("genre")}>
               Genre
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("review")}>
+            <Link to="/homepage" onClick={() => scrollToSection("review")}>
               Review
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" onClick={() => scrollToSection("contact")}>
+            <Link to="/homepage" onClick={() => scrollToSection("contact")}>
               Contact us
-            </a>
+            </Link>
           </li>
           <li>
             <Link to="/booking">Booking</Link>
